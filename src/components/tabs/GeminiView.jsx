@@ -1,55 +1,102 @@
+import { useState } from 'react';
+import { useSession } from '../../context/SessionContext.jsx';
+import WaitingGame from '../interventions/WaitingGame.jsx';
 import './GeminiView.css';
 
+const HISTORY = [
+  { id: 'h1', label: 'Spaced repetition schedule', active: true },
+  { id: 'h2', label: 'Research paper outline help' },
+  { id: 'h3', label: 'Summarising lecture notes' },
+  { id: 'h4', label: 'Citation formatting' },
+  { id: 'h5', label: 'Study plan for finals' },
+];
+
 export default function GeminiView() {
+  const { messages, aiGenerating, submitPrompt } = useSession();
+  const [draft, setDraft] = useState('');
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (!draft.trim() || aiGenerating) return;
+    submitPrompt(draft);
+    setDraft('');
+  }
+
   return (
     <div className="gemini-view">
-      <div className="gemini-header">
-        <span className="gemini-logo" aria-hidden="true" />
-        <span className="gemini-header-title">Gemini</span>
+      <aside className="gemini-sidebar">
+        <button type="button" className="gemini-sidebar-new-chat">
+          <span className="gemini-sidebar-plus" aria-hidden="true">
+            +
+          </span>
+          New chat
+        </button>
+
+        <p className="gemini-sidebar-label">Recent</p>
+        <ul className="gemini-sidebar-history">
+          {HISTORY.map((item) => (
+            <li
+              key={item.id}
+              className={`gemini-sidebar-history-item${item.active ? ' gemini-sidebar-history-item-active' : ''}`}
+            >
+              {item.label}
+            </li>
+          ))}
+        </ul>
+
+        <div className="gemini-sidebar-footer">
+          <span className="gemini-sidebar-avatar" aria-hidden="true" />
+          <span className="gemini-sidebar-footer-label">Settings &amp; help</span>
+        </div>
+      </aside>
+
+      <div className="gemini-main">
+        <div className="gemini-header">
+          <span className="gemini-logo" aria-hidden="true" />
+          <span className="gemini-header-title">Gemini</span>
+        </div>
+
+        <div className="gemini-conversation">
+          {messages.map((message) =>
+            message.role === 'user' ? (
+              <div className="gemini-message gemini-message-user" key={message.id}>
+                <p>{message.text}</p>
+              </div>
+            ) : (
+              <div className="gemini-message gemini-message-model" key={message.id}>
+                <span className="gemini-avatar" aria-hidden="true" />
+                <div className="gemini-message-body">
+                  <p>{message.text}</p>
+                </div>
+              </div>
+            )
+          )}
+
+          {aiGenerating && (
+            <div className="gemini-message gemini-message-model">
+              <span className="gemini-avatar" aria-hidden="true" />
+              <div className="gemini-message-body gemini-typing">
+                <span className="gemini-typing-dot" />
+                <span className="gemini-typing-dot" />
+                <span className="gemini-typing-dot" />
+              </div>
+            </div>
+          )}
+        </div>
+
+        <form className="gemini-prompt-bar" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className="gemini-prompt-input"
+            placeholder={aiGenerating ? 'Waiting for a response…' : 'Ask Gemini'}
+            value={draft}
+            onChange={(event) => setDraft(event.target.value)}
+            disabled={aiGenerating}
+          />
+        </form>
       </div>
 
-      <div className="gemini-conversation">
-        <div className="gemini-message gemini-message-user">
-          <p>Can you summarise the key ideas behind spaced repetition?</p>
-        </div>
-
-        <div className="gemini-message gemini-message-model">
-          <span className="gemini-avatar" aria-hidden="true" />
-          <div className="gemini-message-body">
-            <p>
-              Spaced repetition is a learning technique that schedules
-              reviews of material at increasing intervals over time,
-              rather than cramming it all at once. A few key ideas:
-            </p>
-            <ul>
-              <li>Reviewing just before you would otherwise forget strengthens memory the most.</li>
-              <li>Intervals grow longer each time you recall something successfully.</li>
-              <li>Struggling a little to recall something is more effective than easy, immediate review.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="gemini-message gemini-message-user">
-          <p>Could you give me a simple weekly schedule for revising this?</p>
-        </div>
-
-        <div className="gemini-message gemini-message-model">
-          <span className="gemini-avatar" aria-hidden="true" />
-          <div className="gemini-message-body">
-            <p>
-              Sure. A simple starting point: review new material the next
-              day, then after three days, then after a week, then after two
-              weeks. Adjust the gaps based on how well you recall each item.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="gemini-prompt-bar">
-        <div className="gemini-prompt-box">
-          <span className="gemini-prompt-placeholder">Ask Gemini</span>
-        </div>
-      </div>
+      <WaitingGame />
     </div>
   );
 }

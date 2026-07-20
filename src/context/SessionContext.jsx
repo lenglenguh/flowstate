@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import { TABS } from '../tabsConfig.js';
 import useDistractionEngine from '../hooks/useDistractionEngine.js';
+import useGeminiSimulator from '../hooks/useGeminiSimulator.js';
 
 const SessionContext = createContext(null);
 
@@ -14,6 +15,10 @@ export function SessionProvider({ children }) {
   const [sessionActive, setSessionActive] = useState(false);
   const [workTabs, setWorkTabs] = useState(defaultWorkTabIds);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [escapeHatchDismissable, setEscapeHatchDismissable] = useState(true);
+  const [contentOverlayNode, setContentOverlayNode] = useState(null);
+  const [flaggedDistractionTabs, setFlaggedDistractionTabs] = useState([]);
+  const [sessionKey, setSessionKey] = useState(0);
 
   function toggleMenu() {
     setIsMenuOpen((open) => !open);
@@ -46,7 +51,41 @@ export function SessionProvider({ children }) {
     setIsMenuOpen(false);
   }
 
-  const distraction = useDistractionEngine({ sessionActive, activeTab, tabs, workTabs });
+  function returnToWork() {
+    if (workTabs.length > 0) {
+      setActiveTab(workTabs[0]);
+    }
+  }
+
+  function flagAsDistraction(tabId) {
+    setFlaggedDistractionTabs((prev) => (prev.includes(tabId) ? prev : [...prev, tabId]));
+  }
+
+  function unflagDistraction(tabId) {
+    setFlaggedDistractionTabs((prev) => prev.filter((id) => id !== tabId));
+  }
+
+  const distraction = useDistractionEngine({
+    sessionActive,
+    activeTab,
+    tabs,
+    workTabs,
+    flaggedDistractionTabs,
+  });
+  const gemini = useGeminiSimulator();
+
+  function resetSession() {
+    setSessionActive(false);
+    setActiveTab('docs');
+    setTabs(TABS.map((tab) => ({ ...tab })));
+    setWorkTabs(defaultWorkTabIds());
+    setIsMenuOpen(false);
+    setEscapeHatchDismissable(true);
+    setFlaggedDistractionTabs([]);
+    distraction.resetEngine();
+    gemini.resetGemini();
+    setSessionKey((key) => key + 1);
+  }
 
   const value = {
     activeTab,
@@ -62,7 +101,18 @@ export function SessionProvider({ children }) {
     toggleMenu,
     closeMenu,
     startSession,
+    returnToWork,
+    escapeHatchDismissable,
+    setEscapeHatchDismissable,
+    contentOverlayNode,
+    setContentOverlayNode,
+    flaggedDistractionTabs,
+    flagAsDistraction,
+    unflagDistraction,
+    sessionKey,
+    resetSession,
     ...distraction,
+    ...gemini,
   };
 
   return (

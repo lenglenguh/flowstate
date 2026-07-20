@@ -1,0 +1,38 @@
+.status-indicator {
+  position: fixed;
+  top: 96px;
+  right: 16px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 12px;
+  color: #3c4043;
+  pointer-events: none;
+}
+
+.status-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34a853;
+  flex-shrink: 0;
+}
+
+.status-indicator-distracted .status-indicator-dot {
+  background: #f5a623;
+}
+
+.status-indicator-label {
+  font-weight: 500;
+}
+
+.status-indicator-timer {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: #5f6368;
+}

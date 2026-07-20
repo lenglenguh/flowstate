@@ -4,12 +4,19 @@ const RAMP_DURATION_MS = 60000;
 const SWITCH_LOG_WINDOW_MS = 5 * 60000;
 const SWITCH_FREQUENCY_WINDOW_MS = 60000;
 
-export default function useDistractionEngine({ sessionActive, activeTab, tabs, workTabs }) {
+export default function useDistractionEngine({
+  sessionActive,
+  activeTab,
+  tabs,
+  workTabs,
+  flaggedDistractionTabs,
+}) {
   const [dwellSeconds, setDwellSeconds] = useState(0);
   const [isDistracted, setIsDistracted] = useState(false);
   const [distractionLevel, setDistractionLevel] = useState(0);
   const [switchLog, setSwitchLog] = useState([]);
   const [snoozedUntil, setSnoozedUntil] = useState(null);
+  const [override, setOverride] = useState(null); // null | true | false, set by the wizard panel
   const [nowTick, setNowTick] = useState(Date.now());
 
   const previousTabRef = useRef(activeTab);
@@ -22,14 +29,29 @@ export default function useDistractionEngine({ sessionActive, activeTab, tabs, w
       if (isWorkTab(tabId)) return false;
       const tab = tabs.find((t) => t.id === tabId);
       if (!tab) return false;
-      // Ambiguous tabs only count once flagged as distraction, which arrives in Phase 5.
-      return tab.classification === 'distraction';
+      if (tab.classification === 'distraction') return true;
+      // Ambiguous tabs only count once the wizard panel flags them as a distraction.
+      return tab.classification === 'ambiguous' && flaggedDistractionTabs.includes(tabId);
     },
-    [tabs, isWorkTab]
+    [tabs, flaggedDistractionTabs, isWorkTab]
   );
 
   function snooze(durationMinutes = 5) {
     setSnoozedUntil(Date.now() + durationMinutes * 60000);
+  }
+
+  function forceDistracted() {
+    setOverride(true);
+  }
+
+  function resetEngine() {
+    setOverride(null);
+    setIsDistracted(false);
+    setDwellSeconds(0);
+    setDistractionLevel(0);
+    setSnoozedUntil(null);
+    setSwitchLog([]);
+    distractionStartRef.current = null;
   }
 
   // Record every tab change during a session for switch-frequency analysis.
@@ -57,6 +79,20 @@ export default function useDistractionEngine({ sessionActive, activeTab, tabs, w
       return;
     }
 
+    if (override !== null) {
+      if (override) {
+        setIsDistracted(true);
+        if (distractionStartRef.current === null) {
+          distractionStartRef.current = Date.now();
+        }
+      } else {
+        setIsDistracted(false);
+        setDwellSeconds(0);
+        distractionStartRef.current = null;
+      }
+      return;
+    }
+
     const snoozed = snoozedUntil !== null && Date.now() < snoozedUntil;
 
     if (snoozed || isWorkTab(activeTab)) {
@@ -76,7 +112,9 @@ export default function useDistractionEngine({ sessionActive, activeTab, tabs, w
       setIsDistracted(false);
       distractionStartRef.current = null;
     }
-  }, [activeTab, sessionActive, snoozedUntil, isWorkTab, isDistractionTab]);
+    // nowTick is intentionally included so a snooze naturally expiring is re-checked every
+    // second, instead of only re-evaluating on the next tab switch.
+  }, [activeTab, sessionActive, snoozedUntil, override, nowTick, isWorkTab, isDistractionTab]);
 
   // One-second heartbeat drives dwell counting and keeps the switch-frequency window fresh.
   useEffect(() => {
@@ -127,5 +165,7 @@ export default function useDistractionEngine({ sessionActive, activeTab, tabs, w
     recentSwitchCount,
     isSnoozed,
     snooze,
+    forceDistracted,
+    resetEngine,
   };
 }

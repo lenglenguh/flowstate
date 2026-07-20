@@ -5,8 +5,19 @@
   background: #ffffff;
 }
 
-.browser-content {
+.content-stage {
+  position: relative;
   flex: 1;
   min-height: 0;
+}
+
+.browser-content {
+  height: 100%;
   overflow: hidden;
+}
+
+.content-overlay-root {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSession } from '../context/SessionContext.jsx';
 import './ExtensionMenu.css';
 
@@ -18,12 +18,48 @@ export default function ExtensionMenu() {
     toggleWorkTab,
     addCustomWorkTab,
     startSession,
+    isDistracted,
+    snooze,
   } = useSession();
 
   const [newTabLabel, setNewTabLabel] = useState('');
 
-  if (!isMenuOpen || sessionActive) {
+  // Clear any partially-typed tab name whenever a session starts or is reset, so it
+  // never carries over into the next participant's setup.
+  useEffect(() => {
+    setNewTabLabel('');
+  }, [sessionActive]);
+
+  if (!isMenuOpen) {
     return null;
+  }
+
+  if (sessionActive) {
+    return (
+      <>
+        <div className="extension-menu-backdrop" onClick={closeMenu} />
+
+        <div className="extension-menu" role="dialog" aria-label="FlowState">
+          <h2 className="extension-menu-title">FlowState</h2>
+          <p className="extension-menu-prompt">
+            {isDistracted
+              ? 'Looks like you’ve drifted. Snooze if this one shouldn’t count.'
+              : 'Session in progress. You’re on track.'}
+          </p>
+
+          <button
+            type="button"
+            className="extension-menu-start-button"
+            onClick={() => {
+              snooze();
+              closeMenu();
+            }}
+          >
+            Snooze reminders (5 min)
+          </button>
+        </div>
+      </>
+    );
   }
 
   function handleAddTab() {
