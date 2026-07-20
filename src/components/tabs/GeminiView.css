@@ -1,0 +1,97 @@
+.gemini-view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.gemini-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #ece9f7;
+}
+
+.gemini-logo {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: conic-gradient(from 180deg, #4285f4, #ea4335, #fbbc05, #34a853, #4285f4);
+}
+
+.gemini-header-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #3c4043;
+}
+
+.gemini-conversation {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.gemini-message {
+  max-width: 640px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.gemini-message p {
+  margin: 0 0 10px;
+}
+
+.gemini-message p:last-child {
+  margin-bottom: 0;
+}
+
+.gemini-message ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.gemini-message-user {
+  align-self: flex-end;
+  background: #f0f4f9;
+  padding: 12px 16px;
+  border-radius: 18px 18px 4px 18px;
+  color: #202124;
+}
+
+.gemini-message-model {
+  align-self: flex-start;
+  display: flex;
+  gap: 12px;
+}
+
+.gemini-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: conic-gradient(from 180deg, #4285f4, #ea4335, #fbbc05, #34a853, #4285f4);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.gemini-message-body {
+  color: #3c4043;
+}
+
+.gemini-prompt-bar {
+  padding: 16px 24px 24px;
+  border-top: 1px solid #ece9f7;
+}
+
+.gemini-prompt-box {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  border-radius: 28px;
+  background: #f0f4f9;
+  color: #80868b;
+  font-size: 14px;
+}

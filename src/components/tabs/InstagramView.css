@@ -1,0 +1,85 @@
+.instagram-view {
+  height: 100%;
+  overflow-y: auto;
+  background: #fafafa;
+}
+
+.instagram-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #ffffff;
+  border-bottom: 1px solid #dbdbdb;
+  padding: 14px 0;
+  text-align: center;
+}
+
+.instagram-logo {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.instagram-feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0 60px;
+}
+
+.instagram-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+}
+
+.instagram-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+}
+
+.instagram-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+  flex-shrink: 0;
+}
+
+.instagram-username {
+  font-size: 13px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.instagram-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.instagram-card-actions {
+  display: flex;
+  gap: 16px;
+  padding: 10px 14px 4px;
+  font-size: 18px;
+  color: #262626;
+}
+
+.instagram-likes {
+  margin: 4px 14px 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.instagram-caption {
+  margin: 0 14px 14px;
+  font-size: 13px;
+  color: #262626;
+}

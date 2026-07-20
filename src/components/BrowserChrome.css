@@ -1,0 +1,127 @@
+.browser-chrome {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #dfe1e5;
+  border-bottom: 1px solid #c7c9cc;
+  flex-shrink: 0;
+}
+
+.tab-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 8px 8px 0;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 200px;
+  min-width: 120px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  background: #c8cace;
+  color: #4a4c50;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.tab:hover {
+  background: #d4d6da;
+}
+
+.tab-active {
+  background: #ffffff;
+  color: #1f2023;
+  position: relative;
+}
+
+.tab-active:hover {
+  background: #ffffff;
+}
+
+.tab-favicon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c8cff, #ff7ce0);
+  flex-shrink: 0;
+}
+
+.tab-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: #ffffff;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 2px;
+}
+
+.nav-button {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #6b6d70;
+  font-size: 15px;
+  cursor: not-allowed;
+}
+
+.address-bar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #f1f3f4;
+  border-radius: 16px;
+  color: #3c4043;
+}
+
+.address-text {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.extension-button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #4a4c50;
+  cursor: pointer;
+}
+
+.extension-button:hover {
+  background: #f1f3f4;
+}
+
+.extension-button-active {
+  background: #e6f0fe;
+  color: #1a73e8;
+}

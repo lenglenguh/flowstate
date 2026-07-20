@@ -1,0 +1,12 @@
+.browser-window {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.browser-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}

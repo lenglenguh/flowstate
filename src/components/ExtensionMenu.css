@@ -1,0 +1,165 @@
+.extension-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: transparent;
+}
+
+.extension-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 12px;
+  z-index: 21;
+  width: 380px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  text-align: left;
+}
+
+.extension-menu-title {
+  margin: 0 0 4px;
+  font-size: 19px;
+  font-weight: 600;
+  color: #1f2023;
+}
+
+.extension-menu-prompt {
+  margin: 0 0 18px;
+  font-size: 14px;
+  color: #5f6368;
+}
+
+.extension-menu-list {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.extension-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 8px;
+  border-radius: 8px;
+}
+
+.extension-menu-item:hover {
+  background: #f4f5f6;
+}
+
+.extension-menu-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.extension-menu-checkbox-label input[type='checkbox'] {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  accent-color: #1a73e8;
+  cursor: pointer;
+}
+
+.extension-menu-item-name {
+  font-size: 14.5px;
+  color: #202124;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.extension-menu-badge {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.extension-menu-badge-work {
+  background: #e6f4ea;
+  color: #1e7e34;
+}
+
+.extension-menu-badge-distraction {
+  background: #fce8e6;
+  color: #c5221f;
+}
+
+.extension-menu-badge-ambiguous {
+  background: #fef7e0;
+  color: #b06000;
+}
+
+.extension-menu-add-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  border: 1.5px dashed #c4c7cc;
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+.extension-menu-add-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #eef1f4;
+  color: #5f6368;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.extension-menu-add-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: inherit;
+  color: #202124;
+}
+
+.extension-menu-add-input:focus {
+  outline: none;
+}
+
+.extension-menu-add-input::placeholder {
+  color: #9aa0a6;
+  font-style: italic;
+}
+
+.extension-menu-start-button {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  background: #1a73e8;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.extension-menu-start-button:hover {
+  background: #1662c4;
+}
