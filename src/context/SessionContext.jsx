@@ -2,8 +2,10 @@ import { createContext, useContext, useState } from 'react';
 import { TABS } from '../tabsConfig.js';
 import useDistractionEngine from '../hooks/useDistractionEngine.js';
 import useGeminiSimulator from '../hooks/useGeminiSimulator.js';
+import { sanitizeInput } from '../utils/sanitizeInput.js';
 
 const SessionContext = createContext(null);
+const MAX_TAB_LABEL_LENGTH = 40;
 
 function defaultWorkTabIds() {
   return TABS.filter((tab) => tab.classification === 'work').map((tab) => tab.id);
@@ -35,7 +37,7 @@ export function SessionProvider({ children }) {
   }
 
   function addCustomWorkTab(label) {
-    const trimmed = label.trim();
+    const trimmed = sanitizeInput(label, MAX_TAB_LABEL_LENGTH);
     if (!trimmed) return;
 
     const id = `custom-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;

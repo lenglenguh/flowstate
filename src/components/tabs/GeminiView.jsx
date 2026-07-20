@@ -92,6 +92,7 @@ export default function GeminiView() {
             value={draft}
             onChange={(event) => setDraft(event.target.value)}
             disabled={aiGenerating}
+            maxLength={2000}
           />
         </form>
       </div>

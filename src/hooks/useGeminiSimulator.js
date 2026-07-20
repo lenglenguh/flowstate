@@ -1,7 +1,9 @@
 import { useRef, useState } from 'react';
+import { sanitizeInput } from '../utils/sanitizeInput.js';
 
 const MIN_DELAY_MS = 30000;
 const MAX_DELAY_MS = 40000;
+const MAX_PROMPT_LENGTH = 2000;
 
 const INITIAL_MESSAGES = [
   { id: 'seed-1', role: 'user', text: 'Can you summarise the key ideas behind spaced repetition?' },
@@ -42,7 +44,7 @@ export default function useGeminiSimulator() {
   const responseIndexRef = useRef(0);
 
   function submitPrompt(text) {
-    const trimmed = text.trim();
+    const trimmed = sanitizeInput(text, MAX_PROMPT_LENGTH);
     if (!trimmed || aiGenerating) return;
 
     setMessages((prev) => [...prev, { id: `msg-${Date.now()}-u`, role: 'user', text: trimmed }]);

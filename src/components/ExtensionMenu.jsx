@@ -111,6 +111,7 @@ export default function ExtensionMenu() {
             value={newTabLabel}
             onChange={(event) => setNewTabLabel(event.target.value)}
             onKeyDown={handleInputKeyDown}
+            maxLength={40}
           />
         </div>
 
